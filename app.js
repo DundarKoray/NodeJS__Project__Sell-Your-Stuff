@@ -4,7 +4,9 @@ const mustacheExpress = require('mustache-express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const models = require('./models')
+const bcrypt = require('bcrypt')
 
+const SALT_ROUNDS = 10;
 const PORT = 3000
 const VIEWS_PATH = path.join(__dirname, '/views')
 
@@ -40,19 +42,27 @@ app.post('/register',async (req,res) => {
 
     // if user does not exist creat one
     if(persistedUser == null){
-        let user = models.User.build({
-            username : username,
-            password: password
+
+        bcrypt.hash(password, SALT_ROUNDS, async (error, hash) => {
+            if(error) {
+                res.render('/password', {message: 'Error occured when registering'})
+            } else {
+                let user = models.User.build({
+                    username : username,
+                    password: hash
+                })
+
+                let savedUser = await user.save();
+
+                // if user exists redirect them to login page
+                if(savedUser != null) {
+                    res.redirect('/login')
+                } else {
+                    res.render('/register', {message: "User already exists!"})
+                }
+            }
         })
 
-        let savedUser = await user.save();
-
-        // if user exists redirect them to login page
-        if(savedUser != null) {
-            res.redirect('/login')
-        } else {
-            res.render('/register', {message: "User already exists!"})
-        }
     } else {
         res.render('/register', {message: "User already exists!"})
     }
