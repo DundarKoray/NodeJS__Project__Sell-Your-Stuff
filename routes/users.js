@@ -4,7 +4,7 @@ const formidable = require('formidable')
 const {v4: uuidv4} = require('uuid')
 
 router.get('/add-product',(req,res) => {
-  res.render('users/add-product')
+  res.render('users/add-product', {className: 'product-preview-image-invisible'})
 })
 
 function uploadFile(req,callback) {
