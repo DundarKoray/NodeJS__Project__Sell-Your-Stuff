@@ -22,6 +22,8 @@ app.use(session({
 
 // static folder
 app.use('/uploads',express.static('uploads'))
+// localhost:3000/css/site.css
+app.use('/css',express.static('css'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 

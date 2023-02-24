@@ -24,7 +24,8 @@ function uploadFile(req,callback) {
 router.post('/upload',(req,res) => {
 
   uploadFile(req,(photoURL) => {
-    res.send("UPLOAD")
+    photoURL = `/uploads/${photoURL}`
+    res.render('users/add-product', {imageURL: photoURL, className: 'product-preview-image'})
   })
 
 })

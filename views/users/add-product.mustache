@@ -11,32 +11,32 @@
     <h1>Add Product</h1>
 
     <div class="container">
-      {{> menu}}
+        {{> menu}}
 
+        <form action="/users/upload" method="POST" enctype="multipart/form-data">
+            <label>Photo</label>
+            <input type="file" name="photo" />
+            <button type="submit">Upload</button>
+        </form>
 
-      <form action="/users/upload" method="POST" enctype="multipart/form-data">
-        <label>Photo</label>
-        <input type="file" name="photo" />
-        <button type="submit">Upload</button>
-      </form>
+        <img class="{{className}}" src="{{imageURL}}" />
 
-      <form>
-        <div class="form-group">
-    <label>Title</label>
-    <input type="text" name="title" class="form-control" placeholder="Enter title">
-  </div>
-    <div class="form-group">
-    <label>Description</label>
-    <textarea class="form-control" name="description"></textarea>
-    </div>
-    <div class="form-group">
-    <label>Price</label>
-    <input type="text" name="price" />
-  </div>
+        <form>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" name="title" class="form-control" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" name="price" />
+            </div>
 
-  <button type="submit" class="btn btn-primary">Save</button>
-      </form>
-
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
 
     </div>
 
