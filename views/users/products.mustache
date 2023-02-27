@@ -20,15 +20,16 @@
                     <p class="mb-1">{{description}}</p>
                     <small class="text-success"><b>${{price}}</b></small>
                     <form action="/users/delete-product" method="POST">
-                        <input type="hidden" name="productId" value="{{id}}" />
+                        <input type="hidden" name="productId" value={{id}} />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    <a href="/users/products/{{id}}"><button class="btn btn-info">Edit</button></a>
                     {{/products}}
                 </ul>
             </div>
          </div>
          {{#message}}
-         <div class="alert alert-danger" role="aler">
+         <div class="alert alert-danger" role="alert">
             {{message}}
          </div>
          {{/message}}

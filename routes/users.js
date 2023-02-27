@@ -20,6 +20,46 @@ router.get('/products', async (req,res) => {
     res.render('users/products', {products: products})
 })
 
+router.post('/update-product',async (req,res)=> {
+    const productId = req.body.productId
+    const title = req.body.title
+    const description = req.body.description
+    const price = parseInt(req.body.price)
+
+    const result = await models.Product.update({
+        title: title,
+        description: description,
+        price: price,
+        imageURL: uniqueFilename
+    }, {
+        where: {
+            id: productId
+        }
+    })
+
+    res.redirect('/users/products')
+
+})
+
+router.post('/upload/edit/:productId',(req,res) => {
+    uploadFile(req, async (photoURL) => {
+        let productId = req.params.productId
+        let product = await models.Product.findByPk(productId)
+
+        let response = product.dataValues
+        response.imageURL = photoURL;
+
+        res.render('users/edit-product', response)
+    })
+})
+
+router.get('/products/:productId',async (req,res) => {
+    let productId = req.params.productId
+    let product = await models.Product.findByPk(productId)
+    // products.dataValues passes all the information like title, description, price ...
+    res.render('users/edit-product', product.dataValues)
+})
+
 router.post('/add-product', async (req, res) => {
     let title = req.body.title
     let description = req.body.description
