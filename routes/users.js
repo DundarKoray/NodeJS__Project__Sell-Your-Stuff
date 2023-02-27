@@ -1,11 +1,23 @@
 const express = require('express')
 const router = express.Router()
 const formidable = require('formidable')
-const {v4: uuidv4} = require('uuid')
+const uuidv1 = require('uuid/v1')
 const models = require('../models')
+
+let uniqueFilename = ' '
 
 router.get('/add-product',(req,res) => {
   res.render('users/add-product', {className: 'product-preview-image-invisible'})
+})
+
+router.get('/products', async (req,res) => {
+    let products = await models.Product.findAll({
+        where: {
+            userId: req.session.user.userId
+        }
+    })
+
+    res.render('users/products', {products: products})
 })
 
 router.post('/add-product', async (req, res) => {
@@ -18,12 +30,13 @@ router.post('/add-product', async (req, res) => {
         title: title,
         description: description,
         price: price,
-        userId: userId
+        userId: userId,
+        imageURL: uniqueFilename
     })
 
     let persistedProduct = await product.save();
     if(persistedProduct != null) {
-        res.redirect('/user/products')
+        res.redirect('/users/products')
     } else {
         res.render('users/add-product', {message: 'Unable to add the product'})
     }
@@ -33,7 +46,8 @@ function uploadFile(req,callback) {
 
   new formidable.IncomingForm().parse(req)
   .on('fileBegin',(name,file) => {
-      uniqueFilename = `${uuidv4()}.${file.name.split('.').pop()}`
+
+      uniqueFilename = `${uuidv1()}.${file.name.split('.').pop()}`
       file.name = uniqueFilename
       file.path = __basedir + '/uploads/' + file.name
   })
