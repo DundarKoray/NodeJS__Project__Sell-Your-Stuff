@@ -19,6 +19,10 @@
                     </div>
                     <p class="mb-1">{{description}}</p>
                     <small class="text-success"><b>${{price}}</b></small>
+                    <form action="/users/delete-product" method="POST">
+                        <input type="hidden" name="productId" value="{{id}}" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                     {{/products}}
                 </ul>
             </div>
