@@ -8,6 +8,7 @@ const models = require('./models')
 const session = require('express-session')
 const indexRoutes = require('./routes/index')
 const userRoutes = require('./routes/users')
+const checkAuthorization = require('./middlewares/authorization')
 
 const PORT = 3000
 const VIEWS_PATH = path.join(__dirname,'/views')
@@ -32,6 +33,6 @@ app.set('views',VIEWS_PATH)
 app.set('view engine','mustache')
 
 app.use('/',indexRoutes)
-app.use('/users',userRoutes)
+app.use('/users',checkAuthorization,userRoutes)
 
 app.listen(PORT,() => console.log('Server is running...'))
