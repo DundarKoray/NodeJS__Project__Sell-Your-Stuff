@@ -28,6 +28,11 @@ app.use('/css',express.static('css'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use((req,res,next ) => {
+  res.locals.isAuthenticated = false
+  next()
+})
+
 app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials','.mustache'))
 app.set('views',VIEWS_PATH)
 app.set('view engine','mustache')
