@@ -1,0 +1,28 @@
+<html lang="en">
+    <head>
+        {{> header}}
+        <title>Sell Your Stuff</title>
+    </head>
+    <body>
+        <h1>Home Page</h1>
+
+        <div class="container">
+            {{> menu}}
+            <ul class="list-group">
+                {{#products}}
+                <img src="/uploads/{{imageURL}}" class="product-preview-image" />
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="/products/{{id}}">{{title}}</a>
+                    <small class="text-success"><b>${{price}}</b></small>
+                </li>
+                {{/products}}
+            </ul>
+         </div>
+         {{#message}}
+         <div class="alert alert-danger" role="aler">
+            {{message}}
+         </div>
+         {{/message}}
+        {{> footer}}
+    </body>
+</html>

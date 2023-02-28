@@ -5,6 +5,17 @@ const models = require('../models')
 
 const SALT_ROUNDS = 10
 
+router.get('/', async (req,res) => {
+  products = await models.Product.findAll()
+  res.render('index', {products: products})
+})
+
+router.get('/products/:productId', async (req,res) => {
+  let productId = req.params.productId
+  let product = await models.Product.findByPk(productId)
+  res.render('/products-details', product.dataValues)
+})
+
 router.get('/login',(req,res) => {
   res.render('login')
 })
