@@ -5,6 +5,18 @@ const models = require('../models')
 
 const SALT_ROUNDS = 10
 
+router.get('/logout',(req,res) => {
+  if(req.session) {
+    req.session.destroy((error) => {
+      if(error) {
+        next(error)
+      } else {
+        res.redirect('/')
+      }
+    })
+  }
+})
+
 router.post('/add-comment', async (req, res) => {
   let title = req.body.title
   let description = req.body.description
