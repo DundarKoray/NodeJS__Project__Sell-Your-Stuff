@@ -5,10 +5,41 @@ const models = require('../models')
 
 const SALT_ROUNDS = 10
 
+router.post('/add-comment', async (req, res) => {
+  let title = req.body.title
+  let description = req.body.description
+  let productId = req.body.productId
+
+  let comment = models.Comment.build({
+    title: title,
+    description: description,
+    productId: productId
+  })
+
+  let savedComment = await comment.save();
+  if(savedComment) {
+    res.redirect(`/products/${productId}`)
+  } else {
+    res.render('product-details', {message: 'Error adding comment!'})
+  }
+})
+
 router.get('/products/:productId', async (req,res) => {
   let productId = req.params.productId
-  let product = await models.Product.findByPk(productId)
-  console.log(product.dataValues)
+  let product = await models.Product.findOne({
+    include : [
+      {
+        model: models.Comment,
+        as: 'comments'
+      }
+    ],
+    where : {
+      id: productId
+    }
+  })
+
+  console.log(product)
+
   res.render('product-details', product.dataValues)
 })
 
